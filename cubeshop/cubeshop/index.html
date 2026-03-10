@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CUBIQ — Premium Geometric Objects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- CUSTOM CUBE CURSOR -->
+  <div id="cursorCube">
+    <div class="cursor-inner">
+      <div class="cursor-face cf"></div>
+      <div class="cursor-face cb"></div>
+      <div class="cursor-face cl"></div>
+      <div class="cursor-face cr"></div>
+      <div class="cursor-face ct"></div>
+      <div class="cursor-face cbo"></div>
+    </div>
+  </div>
+
+  <!-- PERSISTENT FLOATING HOLOGRAM (canvas-driven, never pauses) -->
+  <div id="floatingHolo">
+    <canvas id="holoCanvas" width="260" height="260"></canvas>
+    <div class="holo-label">CUBIQ — 3D</div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">CUBIQ</div>
+      <nav class="nav-links">
+        <a href="#shop">Shop</a>
+        <a href="#about">About</a>
+        <a href="#materials">Materials</a>
+      </nav>
+      <button class="cart-btn" id="cartBtn">
+        <span class="cart-icon">⬛</span>
+        <span class="cart-label">CART</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-content">
+      <p class="hero-sub">PRECISION — FORM — MATERIAL</p>
+      <h1 class="hero-title">THE PERFECT<br/><em>CUBE.</em></h1>
+      <p class="hero-desc">Obsessively crafted geometric objects in rare materials. Each cube is a statement of pure form — available in six materials, four sizes, and eight finishes.</p>
+      <a href="#shop" class="hero-cta">EXPLORE COLLECTION</a>
+    </div>
+    <div class="hero-visual" aria-hidden="true"></div>
+  </section>
+
+  <!-- FILTERS -->
+  <section class="filters-section" id="shop">
+    <div class="filters-inner">
+      <div class="filter-group">
+        <label>MATERIAL</label>
+        <div class="filter-pills" id="materialFilter">
+          <button class="pill active" data-filter="material" data-value="all">All</button>
+          <button class="pill" data-filter="material" data-value="wood">Wood</button>
+          <button class="pill" data-filter="material" data-value="metal">Metal</button>
+          <button class="pill" data-filter="material" data-value="marble">Marble</button>
+          <button class="pill" data-filter="material" data-value="glass">Glass</button>
+          <button class="pill" data-filter="material" data-value="rubber">Rubber</button>
+          <button class="pill" data-filter="material" data-value="resin">Resin</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>SIZE</label>
+        <div class="filter-pills" id="sizeFilter">
+          <button class="pill active" data-filter="size" data-value="all">All</button>
+          <button class="pill" data-filter="size" data-value="xs">XS — 2cm</button>
+          <button class="pill" data-filter="size" data-value="s">S — 5cm</button>
+          <button class="pill" data-filter="size" data-value="m">M — 10cm</button>
+          <button class="pill" data-filter="size" data-value="l">L — 20cm</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>COLOR</label>
+        <div class="filter-pills" id="colorFilter">
+          <button class="pill active" data-filter="color" data-value="all">All</button>
+          <button class="pill color-pill" data-filter="color" data-value="onyx" style="--c:#1a1a1a">Onyx</button>
+          <button class="pill color-pill" data-filter="color" data-value="ivory" style="--c:#f5f0e8">Ivory</button>
+          <button class="pill color-pill" data-filter="color" data-value="cobalt" style="--c:#1b4fcf">Cobalt</button>
+          <button class="pill color-pill" data-filter="color" data-value="crimson" style="--c:#c0392b">Crimson</button>
+          <button class="pill color-pill" data-filter="color" data-value="gold" style="--c:#c9a84c">Gold</button>
+          <button class="pill color-pill" data-filter="color" data-value="sage" style="--c:#6b8f6b">Sage</button>
+          <button class="pill color-pill" data-filter="color" data-value="slate" style="--c:#5c6b7a">Slate</button>
+          <button class="pill color-pill" data-filter="color" data-value="blush" style="--c:#e8a090">Blush</button>
+        </div>
+      </div>
+      <div class="filter-group sort-group">
+        <label>SORT</label>
+        <select id="sortSelect">
+          <option value="default">Featured</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+          <option value="name">Alphabetical</option>
+        </select>
+      </div>
+    </div>
+    <div class="results-count"><span id="resultsCount">24</span> objects</div>
+  </section>
+
+  <!-- PRODUCT GRID -->
+  <section class="products-section">
+    <div class="products-grid" id="productsGrid">
+      <!-- injected by JS -->
+    </div>
+    <div class="no-results" id="noResults" style="display:none;">
+      <p>No cubes match your filters.</p>
+      <button onclick="resetFilters()">Reset Filters</button>
+    </div>
+  </section>
+
+  <!-- MATERIAL SHOWCASE -->
+  <section class="materials-section" id="materials">
+    <h2 class="section-title">THE MATERIALS</h2>
+    <div class="materials-grid">
+      <div class="material-card">
+        <div class="material-swatch wood-swatch"></div>
+        <h3>Walnut Wood</h3>
+        <p>Sustainably sourced American black walnut, hand-sanded to 2000-grit and finished with natural oil.</p>
+      </div>
+      <div class="material-card">
+        <div class="material-swatch metal-swatch"></div>
+        <h3>Brushed Steel</h3>
+        <p>316L stainless steel, CNC machined to ±0.01mm tolerance, brushed to a matte satin finish.</p>
+      </div>
+      <div class="material-card">
+        <div class="material-swatch marble-swatch"></div>
+        <h3>Carrara Marble</h3>
+        <p>Hand-cut from Italian Carrara marble blocks, each piece unique with natural veining patterns.</p>
+      </div>
+      <div class="material-card">
+        <div class="material-swatch glass-swatch"></div>
+        <h3>Optical Glass</h3>
+        <p>Borosilicate optical glass, kiln-cast and cold-worked to optical clarity with zero bubbles.</p>
+      </div>
+      <div class="material-card">
+        <div class="material-swatch rubber-swatch"></div>
+        <h3>Vulcanized Rubber</h3>
+        <p>Premium natural rubber, hot-vulcanized for exceptional durability and a tactile matte surface.</p>
+      </div>
+      <div class="material-card">
+        <div class="material-swatch resin-swatch"></div>
+        <h3>Cast Resin</h3>
+        <p>UV-stable epoxy resin with embedded botanicals, minerals, or pigments — each cast is one of a kind.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-section" id="about">
+    <div class="about-inner">
+      <div class="about-text">
+        <h2>WHY A CUBE?</h2>
+        <p>The cube is the purest expression of three-dimensional form. Six equal faces, twelve equal edges, eight equal vertices. No object contains more perfect symmetry in less visual complexity.</p>
+        <p>We make cubes because they demand honesty from materials. Wood grain wraps around sharp corners. Light refracts through glass edges. Metal radiates from brushed planes. The cube reveals everything.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat"><span class="stat-num">±0.01<small>mm</small></span><span class="stat-label">Precision</span></div>
+        <div class="stat"><span class="stat-num">6</span><span class="stat-label">Materials</span></div>
+        <div class="stat"><span class="stat-num">4</span><span class="stat-label">Sizes</span></div>
+        <div class="stat"><span class="stat-num">8</span><span class="stat-label">Finishes</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h2>YOUR CART</h2>
+      <button class="close-cart" id="closeCart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Your cart is empty.</p>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none;">
+      <div class="cart-total">
+        <span>TOTAL</span>
+        <span id="cartTotal">€0.00</span>
+      </div>
+      <button class="checkout-btn">PROCEED TO CHECKOUT</button>
+    </div>
+  </aside>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">CUBIQ</div>
+      <p>© 2026 CUBIQ. The geometry of desire.</p>
+      <div class="footer-links">
+        <a href="#">Shipping</a>
+        <a href="#">Returns</a>
+        <a href="#">Care</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
