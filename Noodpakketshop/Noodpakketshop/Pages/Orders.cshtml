@@ -1,0 +1,33 @@
+﻿@page
+@model OrdersModel
+@{ ViewData["Title"] = "Bestellingen"; }
+<div class="page-container">
+    <div class="page-header"><h1>搭 BESTELLINGEN</h1></div>
+    @if (!Model.Orders.Any())
+    {
+        <div class="empty-state"><div class="empty-icon">逃</div><h2>Nog geen bestellingen</h2><a href="/" class="btn-primary">BEKIJK PAKKETTEN</a></div>
+    }
+    else
+    {
+        <div class="orders-list">
+            @foreach (var order in Model.Orders)
+            {
+                <div class="order-card">
+                    <div class="order-card-header">
+                        <div><span class="order-number">Bestelling #@order.Id.ToString("D6")</span><span class="order-date">@order.OrderDate.ToLocalTime().ToString("dd-MM-yyyy")</span></div>
+                        <span class="status-badge status-@order.Status.ToString().ToLower()">@order.Status</span>
+                    </div>
+                    <div class="order-card-body">
+                        <div class="order-customer"><strong>@order.Customer.FullName</strong><span>@order.Customer.Email</span><span>@order.Customer.FullAddress</span></div>
+                        <div class="order-items-list">@foreach (var item in order.Items) { <div class="order-item-mini"><span>@item.ProductName ﾃ・@item.Quantity</span><span>竄ｬ@item.Subtotal.ToString("F2")</span></div> }</div>
+                        <div class="order-meta"><div><strong>Tracking:</strong> @order.TrackingNumber</div><div class="order-total-label">Totaal: <strong>竄ｬ@order.TotalAmount.ToString("F2")</strong></div></div>
+                    </div>
+                    <div class="order-card-footer">
+                        <a href="/OrderConfirmation/@order.Id" class="btn-ghost btn-small">Details</a>
+                        @if (order.Status == NoodPakketShop.Models.OrderStatus.Delivered || order.Status == NoodPakketShop.Models.OrderStatus.Shipped) { <a href="/Returns?orderId=@order.Id" class="btn-warn btn-small">Retour aanvragen</a> }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

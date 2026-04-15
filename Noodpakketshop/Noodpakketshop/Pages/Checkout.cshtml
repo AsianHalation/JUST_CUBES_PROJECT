@@ -1,0 +1,53 @@
+﻿@page
+@model CheckoutModel
+@{ ViewData["Title"] = "Afrekenen"; }
+<div class="page-container">
+    <div class="page-header"><h1>諜 AFREKENEN</h1></div>
+    <div class="checkout-layout">
+        <form method="post" class="checkout-form">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+            <div class="form-section">
+                <h2>側 Persoonlijke gegevens</h2>
+                <div class="form-row">
+                    <div class="form-group"><label asp-for="Input.FirstName">Voornaam *</label><input asp-for="Input.FirstName" placeholder="Jan" /><span asp-validation-for="Input.FirstName" class="field-error"></span></div>
+                    <div class="form-group"><label asp-for="Input.LastName">Achternaam *</label><input asp-for="Input.LastName" placeholder="de Vries" /><span asp-validation-for="Input.LastName" class="field-error"></span></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label asp-for="Input.Email">E-mailadres *</label><input asp-for="Input.Email" type="email" /><span asp-validation-for="Input.Email" class="field-error"></span></div>
+                    <div class="form-group"><label asp-for="Input.Phone">Telefoon</label><input asp-for="Input.Phone" placeholder="+31 6 12345678" /></div>
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>逃 Bezorgadres</h2>
+                <div class="form-row">
+                    <div class="form-group flex-3"><label asp-for="Input.Street">Straatnaam *</label><input asp-for="Input.Street" /><span asp-validation-for="Input.Street" class="field-error"></span></div>
+                    <div class="form-group flex-1"><label asp-for="Input.HouseNumber">Huisnr *</label><input asp-for="Input.HouseNumber" /><span asp-validation-for="Input.HouseNumber" class="field-error"></span></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label asp-for="Input.PostalCode">Postcode *</label><input asp-for="Input.PostalCode" /><span asp-validation-for="Input.PostalCode" class="field-error"></span></div>
+                    <div class="form-group"><label asp-for="Input.City">Stad *</label><input asp-for="Input.City" /><span asp-validation-for="Input.City" class="field-error"></span></div>
+                </div>
+                <div class="form-group"><label asp-for="Input.Country">Land</label><select asp-for="Input.Country"><option value="Netherlands">Nederland</option><option value="Belgium">Belgiﾃｫ</option><option value="Germany">Duitsland</option></select></div>
+                <div class="form-group"><label asp-for="Input.Notes">Opmerkingen</label><textarea asp-for="Input.Notes" rows="3"></textarea></div>
+            </div>
+            <div class="form-section payment-section">
+                <h2>諜 Betaalmethode</h2>
+                <div class="payment-methods">
+                    <label class="payment-option selected"><input type="radio" name="paymentMethod" value="ideal" checked /> iDEAL</label>
+                    <label class="payment-option"><input type="radio" name="paymentMethod" value="creditcard" /> Creditcard</label>
+                    <label class="payment-option"><input type="radio" name="paymentMethod" value="paypal" /> PayPal</label>
+                </div>
+                <div class="payment-note">白 Demo-modus: betaling wordt automatisch goedgekeurd.</div>
+            </div>
+            <button type="submit" class="btn-primary btn-large btn-checkout">笨・BESTELLING PLAATSEN</button>
+        </form>
+        <aside class="order-summary">
+            <h2>UW BESTELLING</h2>
+            @foreach (var item in Model.BasketItems) { <div class="summary-item"><span>@item.ImageEmoji @item.ProductName ﾃ・@item.Quantity</span><span>竄ｬ@item.Subtotal.ToString("F2")</span></div> }
+            <div class="summary-divider"></div>
+            <div class="summary-row"><span>Subtotaal</span><span>竄ｬ@Model.Subtotal.ToString("F2")</span></div>
+            <div class="summary-row"><span>Verzending</span><span>@(Model.Subtotal >= 75 ? "GRATIS" : "竄ｬ5,95")</span></div>
+            <div class="summary-total"><span>TOTAAL</span><span>竄ｬ@Model.Total.ToString("F2")</span></div>
+        </aside>
+    </div>
+</div>

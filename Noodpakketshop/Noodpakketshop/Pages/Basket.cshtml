@@ -1,0 +1,51 @@
+﻿@page
+@model BasketModel
+@{ ViewData["Title"] = "Winkelwagen"; }
+<div class="page-container">
+    <div class="page-header"><h1>將 WINKELWAGEN</h1><a href="/" class="btn-ghost">竊・Verder winkelen</a></div>
+    @if (!Model.Items.Any())
+    {
+        <div class="empty-state">
+            <div class="empty-icon">將</div><h2>Uw winkelwagen is leeg</h2>
+            <p>Voeg noodpakketten toe om u voor te bereiden.</p>
+            <a href="/" class="btn-primary">BEKIJK PAKKETTEN</a>
+        </div>
+    }
+    else
+    {
+        <div class="basket-layout">
+            <div class="basket-items">
+                @foreach (var item in Model.Items)
+                {
+                    <div class="basket-item">
+                        <div class="basket-item-emoji">@item.ImageEmoji</div>
+                        <div class="basket-item-info"><h3>@item.ProductName</h3><p class="item-price">竄ｬ@item.UnitPrice.ToString("F2") per stuk</p></div>
+                        <div class="basket-item-controls">
+                            <form method="post" asp-page-handler="UpdateQuantity" style="display:inline-flex;align-items:center;gap:.5rem;">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <button type="submit" name="delta" value="-1" class="qty-btn">竏・/button>
+                                <span class="qty-num">@item.Quantity</span>
+                                <button type="submit" name="delta" value="1" class="qty-btn">+</button>
+                            </form>
+                            <form method="post" asp-page-handler="Remove" style="display:inline;">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <button type="submit" class="remove-btn" title="Verwijder">笨・/button>
+                            </form>
+                        </div>
+                        <div class="basket-item-subtotal">竄ｬ@item.Subtotal.ToString("F2")</div>
+                    </div>
+                }
+            </div>
+            <div class="basket-summary">
+                <h2>OVERZICHT</h2>
+                <div class="summary-row"><span>Subtotaal</span><span>竄ｬ@Model.Total.ToString("F2")</span></div>
+                <div class="summary-row"><span>Verzending</span><span>@(Model.Total >= 75 ? "GRATIS" : "竄ｬ5,95")</span></div>
+                @if (Model.Total >= 75) { <div class="free-shipping-badge">笨・Gratis verzending!</div> }
+                else { <div class="shipping-progress">Nog 竄ｬ@((75 - Model.Total).ToString("F2")) voor gratis verzending</div> }
+                <div class="summary-total"><span>TOTAAL</span><span>竄ｬ@((Model.Total + (Model.Total >= 75 ? 0 : 5.95m)).ToString("F2"))</span></div>
+                <a href="/Checkout" class="btn-primary btn-large">NAAR BETALEN 竊・/a>
+                <p class="secure-note">白 Veilig en versleuteld afrekenen</p>
+            </div>
+        </div>
+    }
+</div>

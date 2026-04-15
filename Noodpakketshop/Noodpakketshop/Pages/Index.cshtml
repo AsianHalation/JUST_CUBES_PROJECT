@@ -1,0 +1,67 @@
+﻿@page
+@model IndexModel
+@{ ViewData["Title"] = "Noodpakketten 窶・Altijd Voorbereid"; }
+
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <div class="hero-badge">笞・・OVERHEIDSAANBEVELING: 72 UUR PAKKET</div>
+        <h1 class="hero-title">Bereid op<br /><em>het ergste.</em></h1>
+        <p class="hero-desc">Professionele noodpakketten voor thuis, gezin en onderweg. Samengesteld door experts 窶・aanbevolen door het Rode Kruis.</p>
+        <a href="#products" class="hero-cta">BEKIJK PAKKETTEN</a>
+        <div class="hero-stats">
+            <div class="hero-stat"><span>72 uur</span><small>Aanbevolen voorraad</small></div>
+            <div class="hero-stat"><span>8+</span><small>Scenario'"'"'s gedekt</small></div>
+            <div class="hero-stat"><span>24h</span><small>Levertijd</small></div>
+        </div>
+    </div>
+    <div class="hero-visual"><div class="hero-kit-icon">賜</div></div>
+</section>
+
+<div class="urgency-bar">
+    <span>笞｡ GRATIS verzending vanaf 竄ｬ75</span>
+    <span>孱・・30 dagen retourgarantie</span>
+    <span>逃 Op voorraad 窶・Morgen in huis</span>
+    <span>笨・Aanbevolen door Rode Kruis</span>
+</div>
+
+<section class="categories-section">
+    <div class="section-header"><h2>CATEGORIEﾃ起</h2></div>
+    <div class="categories-grid">
+        @foreach (var cat in Model.Categories)
+        {
+            <a href="?category=@cat" class="category-pill @(Model.ActiveCategory == cat ? "active" : "")">@cat</a>
+        }
+        <a href="/" class="category-pill @(string.IsNullOrEmpty(Model.ActiveCategory) ? "active" : "")">Alle</a>
+    </div>
+</section>
+
+@if (string.IsNullOrEmpty(Model.ActiveCategory) && Model.Featured.Any())
+{
+    <section class="featured-section">
+        <div class="section-header"><h2>箝・AANBEVOLEN</h2><p>Onze meest populaire noodpakketten</p></div>
+        <div class="products-grid featured-grid">
+            @foreach (var product in Model.Featured) { <partial name="_ProductCard" model="product" /> }
+        </div>
+    </section>
+}
+
+<section class="products-section" id="products">
+    <div class="section-header">
+        <h2>@(string.IsNullOrEmpty(Model.ActiveCategory) ? "ALLE PAKKETTEN" : Model.ActiveCategory.ToUpper())</h2>
+        <p>@Model.Products.Count pakket(ten) gevonden</p>
+    </div>
+    <div class="products-grid">
+        @foreach (var product in Model.Products) { <partial name="_ProductCard" model="product" /> }
+    </div>
+</section>
+
+<section class="why-section">
+    <h2>WAAROM NOODPAKKET.NL?</h2>
+    <div class="why-grid">
+        <div class="why-card"><div class="why-icon">醇</div><h3>Expertsamenstelling</h3><p>Samengesteld met hulpverleners en het Rode Kruis voor maximale effectiviteit.</p></div>
+        <div class="why-card"><div class="why-icon">笞｡</div><h3>Snelle Levering</h3><p>Besteld voor 23:00, morgen in huis. Altijd gratis bij orders boven 竄ｬ75.</p></div>
+        <div class="why-card"><div class="why-icon">孱・・/div><h3>Kwaliteitsgarantie</h3><p>Alle producten voldoen aan CE-normen. 30 dagen retour, geen vragen gesteld.</p></div>
+        <div class="why-card"><div class="why-icon">売</div><h3>Vervangingsservice</h3><p>Wij herinneren u aan vervaldatums en bieden vervangingssets aan.</p></div>
+    </div>
+</section>

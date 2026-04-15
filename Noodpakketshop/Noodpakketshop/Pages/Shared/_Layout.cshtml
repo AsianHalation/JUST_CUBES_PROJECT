@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] 窶・NoodPakket.nl</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+<header class="site-header">
+    <div class="header-inner">
+        <a href="/" class="logo"><span class="logo-icon">圷</span><span class="logo-text">NOODPAKKET<span class="logo-accent">.NL</span></span></a>
+        <nav class="nav-links">
+            <a href="/" class="nav-link">Producten</a>
+            <a href="/Orders" class="nav-link">Bestellingen</a>
+            <a href="/Returns" class="nav-link">Retouren</a>
+        </nav>
+        <a href="/Basket" class="cart-btn">
+            <span>將</span>
+            <span>WINKELWAGEN</span>
+            @if (ViewData["BasketCount"] is int count && count > 0)
+            {
+                <span class="cart-count">@count</span>
+            }
+        </a>
+    </div>
+</header>
+<main class="main-content">@RenderBody()</main>
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-logo">圷 NOODPAKKET.NL</div>
+        <p>Bereid u voor op het onverwachte.</p>
+        <div class="footer-links">
+            <a href="/Orders">Bestellingen</a>
+            <a href="/Returns">Retouren</a>
+        </div>
+        <p class="footer-copy">ﾂｩ 2026 NoodPakket.nl</p>
+    </div>
+</footer>
+<div id="toast" class="toast"></div>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

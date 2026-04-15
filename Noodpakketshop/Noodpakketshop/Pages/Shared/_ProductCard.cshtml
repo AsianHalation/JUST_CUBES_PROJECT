@@ -1,0 +1,26 @@
+﻿@model NoodPakketShop.Models.Product
+<div class="product-card @(Model.IsFeatured ? "featured-card" : "")">
+    @if (Model.IsFeatured) { <div class="product-badge">箝・AANBEVOLEN</div> }
+    <div class="product-visual">
+        <div class="product-emoji">@Model.ImageEmoji</div>
+        <div class="product-category-tag">@Model.Category</div>
+    </div>
+    <div class="product-info">
+        <h3 class="product-name">@Model.Name</h3>
+        <p class="product-desc">@Model.Description</p>
+        <div class="product-includes">
+            <strong>Inhoud:</strong>
+            <ul>
+                @foreach (var item in Model.Includes.Take(4)) { <li>笨・@item</li> }
+                @if (Model.Includes.Length > 4) { <li class="more-items">+ @(Model.Includes.Length - 4) meer items</li> }
+            </ul>
+        </div>
+        <div class="product-footer">
+            <div class="product-price">竄ｬ@Model.Price.ToString("F2")</div>
+            <form method="post" asp-page-handler="AddToBasket">
+                <input type="hidden" name="productId" value="@Model.Id" />
+                <button type="submit" class="add-to-cart-btn">將 IN WINKELWAGEN</button>
+            </form>
+        </div>
+    </div>
+</div>

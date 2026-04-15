@@ -1,0 +1,38 @@
+﻿@page
+@model ReturnsModel
+@{ ViewData["Title"] = "Retouren"; }
+<div class="page-container">
+    <div class="page-header"><h1>売 RETOUREN</h1></div>
+    @if (Model.SuccessMessage != null) { <div class="alert-success">笨・@Model.SuccessMessage</div> }
+    <div class="returns-layout">
+        <div class="return-form-card">
+            <h2>Retour aanvragen</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label>Bestelnummer *</label>
+                    <select name="orderId" required>
+                        <option value="">窶・Selecteer bestelling 窶・/option>
+                        @foreach (var order in Model.EligibleOrders) { <option value="@order.Id" selected="@(Model.SelectedOrderId == order.Id)">#@order.Id.ToString("D6") 窶・@order.OrderDate.ToLocalTime().ToString("dd-MM-yyyy") 窶・竄ｬ@order.TotalAmount.ToString("F2")</option> }
+                    </select>
+                </div>
+                <div class="form-group"><label>Reden *</label><textarea name="reason" rows="4" required>@Model.Reason</textarea></div>
+                <button type="submit" class="btn-primary">RETOUR AANVRAGEN</button>
+            </form>
+        </div>
+        <div class="returns-list-card">
+            <h2>Mijn retouren</h2>
+            @if (!Model.Returns.Any()) { <p class="no-returns">Geen retouren aangevraagd.</p> }
+            else
+            {
+                @foreach (var ret in Model.Returns)
+                {
+                    <div class="return-item">
+                        <div class="return-item-header"><span>Bestelling #@ret.Order.Id.ToString("D6")</span><span class="status-badge status-@ret.Status.ToString().ToLower()">@ret.Status</span></div>
+                        <p class="return-reason">@ret.Reason</p>
+                        <small>@ret.RequestedAt.ToLocalTime().ToString("dd-MM-yyyy HH:mm")</small>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

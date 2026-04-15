@@ -1,0 +1,29 @@
+﻿@page "{orderId:int}"
+@model OrderConfirmationModel
+@{ ViewData["Title"] = "Bestelling bevestigd!"; }
+<div class="page-container confirmation-page">
+    <div class="confirmation-hero">
+        <div class="confirmation-icon">笨・/div>
+        <h1>BESTELLING BEVESTIGD!</h1>
+        <p>Bedankt voor uw bestelling, @Model.Order.Customer.FirstName!</p>
+    </div>
+    <div class="confirmation-layout">
+        <div class="confirmation-card">
+            <h2>逃 Bestelgegevens</h2>
+            <div class="detail-row"><span>Bestelnummer</span><strong>#@Model.Order.Id.ToString("D6")</strong></div>
+            <div class="detail-row"><span>Datum</span><strong>@Model.Order.OrderDate.ToLocalTime().ToString("dd-MM-yyyy HH:mm")</strong></div>
+            <div class="detail-row"><span>Status</span><span class="status-badge status-@Model.Order.Status.ToString().ToLower()">@Model.Order.Status</span></div>
+            <div class="detail-row"><span>Tracking</span><strong class="tracking-number">@Model.Order.TrackingNumber</strong></div>
+            <div class="detail-row"><span>Adres</span><strong>@Model.Order.Customer.FullAddress</strong></div>
+        </div>
+        <div class="confirmation-card">
+            <h2>將 Bestelde producten</h2>
+            @foreach (var item in Model.Order.Items) { <div class="order-item-row"><span>@item.ProductName ﾃ・@item.Quantity</span><strong>竄ｬ@item.Subtotal.ToString("F2")</strong></div> }
+            <div class="order-total-row"><span>TOTAAL BETAALD</span><strong>竄ｬ@Model.Order.TotalAmount.ToString("F2")</strong></div>
+        </div>
+    </div>
+    <div class="confirmation-actions">
+        <a href="/Orders" class="btn-primary">搭 BEKIJK BESTELLINGEN</a>
+        <a href="/" class="btn-ghost">竊・Verder winkelen</a>
+    </div>
+</div>
